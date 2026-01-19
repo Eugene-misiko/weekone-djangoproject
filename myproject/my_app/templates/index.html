@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-3xl font-bold mb-4">Calorie Counter</h1>
+
+<form method="POST" class="mb-6 flex  gap-2">
+    {% csrf_token %}
+    <input name="name" placeholder="Food name" class="focus:outline-none focus:ring-0 border-2 border-gray-500 p-2 w-1/4 rounded-[8px]" required>
+    <input name="calories" type="number" placeholder="Calories" class="focus:outline-none focus:ring-0 border-2 border-gray-500 p-2 w-30 rounded-[8px]" required>
+    <button class="bg-green-500 text-white px-4 py-2 rounded-[10%] text-xl">Add</button>
+</form>
+
+<ul class="mb-4">
+    {% for food in foods %}
+        <li class="flex justify-between bg-white p-2 mb-2 shadow">
+            {{ food.name }} - {{ food.carlories }} kcal
+            <a href="{% url 'delete_food' food.id %}" class="text-red-500">Remove</a>
+        </li>
+    {% empty %}
+        <li class="text-xl font-thin">No food added today.</li>
+    {% endfor %}
+</ul>
+
+<div class="font-bold text-xl">
+    Total Calories: {{ total_calories }} kcal
+</div>
+
+<a href="{% url 'reset_day' %}" class="inline-block mt-4 bg-red-500 text-white px-4 py-2 rounded">
+    Reset Day
+</a>
+
+{% endblock %}
